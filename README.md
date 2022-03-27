@@ -38,7 +38,7 @@ Adding Bootstrap in angular
 - npm install jquery - - save
 - npm install popper.js - -save
 - npm install bootstrap - -save
-- npm install font-awesome - -save (provide large set of icons)  
+- npm install font-awesome - -save (provide large set of icons)
   To create component
 - ng g component Dashboard (g means generate)
   To create module
@@ -51,6 +51,8 @@ To create service
 - ng g class Projects
 - ng build -c development
 
+JSON-server API calls
 - npm install json-server -g
+- json-server database.json --watch
 
 
