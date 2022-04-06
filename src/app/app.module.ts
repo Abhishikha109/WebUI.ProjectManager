@@ -4,19 +4,42 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {AdminModule} from "./admin/admin.module";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import { LoginComponent } from './login/login.component';
+import {FormsModule} from "@angular/forms";
+import {JwtInterceptorService} from "./jwt-interceptor.service";
+import {JwtUnAuthorizedInterceptorService} from "./jwt-un-authorized-interceptor.service";
+import {JwtModule} from "@auth0/angular-jwt";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    AdminModule
+    AdminModule,
+    FormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return (sessionStorage.getItem("currentUser")?JSON.parse(sessionStorage.getItem("currentUser") as string).token : null)
+        }
+      }
+    })
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS,
+    useClass: JwtInterceptorService,
+    multi: true // in order to create multiple objects for JwtInterceptorService
+    },
+    {provide: HTTP_INTERCEPTORS,
+      useClass: JwtUnAuthorizedInterceptorService,
+      multi: true // in order to create multiple objects for JwtUnAuthorizedInterceptorService
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

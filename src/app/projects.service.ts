@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Project} from "./project";
 import {map} from "rxjs/operators";
@@ -13,8 +13,20 @@ export class ProjectsService
 
   constructor(private httpClient: HttpClient) { }
 
+  // getJWTToken(): void{
+  //   var currentUser = { token: "" };
+  //   var headers = new HttpHeaders();
+  //   headers = headers.set("Authorization", "Bearer ");
+  //   if (sessionStorage['currentUser'] != null)
+  //   {
+  //     currentUser = JSON.parse(sessionStorage['currentUser']);
+  //     headers = headers.set("Authorization", "Bearer " + currentUser.token);
+  //   }
+  // }
+
   getAllProjects(): Observable<Project[]>
   {
+    // this.getJWTToken;
     return this.httpClient.get<Project[]>(this.urlPrefix + '/api/projects', {
       responseType: 'json',
     }).pipe(map((data: Project[])=>{
@@ -27,6 +39,8 @@ export class ProjectsService
 
   insertProject(newProject: Project): Observable<Project>
   {
+    // this.getJWTToken;
+
     return this.httpClient.post<Project>(this.urlPrefix + '/api/projects', newProject, {
       responseType: 'json',
     });
@@ -34,6 +48,8 @@ export class ProjectsService
 
   updateProject(existingProject: Project): Observable<Project>
   {
+    // this.getJWTToken;
+
     return this.httpClient.put<Project>(this.urlPrefix + '/api/projects', existingProject, {
       responseType: 'json',
     });
@@ -41,6 +57,8 @@ export class ProjectsService
 
   deleteProject(ProjectID: number): Observable<string>
   {
+    // this.getJWTToken;
+
     return this.httpClient.delete<string>(
       this.urlPrefix + '/api/projects?ProjectID=' + ProjectID
     );
@@ -48,6 +66,8 @@ export class ProjectsService
 
   SearchProjects(searchBy: string, searchText: string): Observable<Project[]>
   {
+    // this.getJWTToken;
+
     return this.httpClient.get<Project[]>(
       this.urlPrefix + '/api/projects/search/' + searchBy + '/' + searchText,
       { responseType: 'json' }

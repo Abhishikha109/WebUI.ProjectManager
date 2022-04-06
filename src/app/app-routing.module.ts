@@ -4,16 +4,21 @@ import {DashboardComponent} from "./admin/dashboard/dashboard.component";
 import {AboutComponent} from "./admin/about/about.component";
 import {ProjectsComponent} from "./admin/projects/projects.component";
 import {MyProfileComponent} from "./admin/my-profile/my-profile.component";
+import {LoginComponent} from "./login/login.component";
+import {CanActivateGuardService} from "./can-activate-guard.service";
 
 const routes: Routes = [
-  {path:"dashboard", component:DashboardComponent},
+  {path:"dashboard", component:DashboardComponent, canActivate: [CanActivateGuardService], data: { expectedRole: "Admin" }},
   {path:"about", component:AboutComponent},
-  {path:"projects", component: ProjectsComponent},
+  {path:"projects", component: ProjectsComponent, canActivate: [CanActivateGuardService], data: { expectedRole: "Admin" }},
   {path:"myProfile", component: MyProfileComponent},
-  {path:"", redirectTo:"dashboard", pathMatch:"full"}];
+  {path:"login", component: LoginComponent},
+  {path:"", redirectTo:"login", pathMatch:"full"}];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+// benefit of Hash is whenever you copy paste the URL into a different browser tab the route will be displayed correctly even after deployment of application

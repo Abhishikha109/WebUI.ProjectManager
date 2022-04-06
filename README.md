@@ -54,5 +54,6 @@ To create service
 JSON-server API calls
 - npm install json-server -g
 - json-server database.json --watch
+- npm install @auth0/angular-jwt --save // to check weather the token is expired or not
 
 
